@@ -1,0 +1,24 @@
+{
+  "name": "agnostic-router",
+  "version": "0.0.1",
+  "description": "Route URLs without requiring Express, or even a webserver",
+  "private": true,
+  "author": {
+    "name": "John Murphy-Teixidor",
+    "email": "johnvmt@gmail.com"
+  },
+  "devDependencies": {
+    "mocha": "2.2.x"
+  },
+  "dependencies": {
+    "route-parser": "0.0.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnvmt/agnostic-router"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "main": "Router.js"
+}
