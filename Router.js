@@ -12,30 +12,36 @@ Router.prototype.route = function() {
 		var request = {};
 		var respond = arguments[2];
 	}
-	else if(arguments.length == 4) {
+	else if(arguments.length >= 4) {
 		var request = arguments[2];
 		if(typeof request !== "object" || !request)
 			request = {};
 		var respond = arguments[3];
 	}
 	request.method = arguments[0];
-	request.path = arguments[1];
 
-	var routeMatches = this._methodPathMatches(request.method, request.path);
-	next();
+	var path = arguments[1];
+	if(typeof request.path === 'undefined') // only overwrite path if doesn't already exist (carries through all routers)
+		request.path = path;
 
-	function next() {
+	var queueEnd = arguments[4];
+
+	var routeMatches = this._methodPathMatches(request.method, path);
+	queueNext();
+
+	function queueNext() {
 		var routeMatch = routeMatches.shift();
 		if(typeof routeMatch !== "undefined") {
-			request.params = routeMatch.params;
-			if (typeof routeMatch.handler === "function")
-				routeMatch.handler(request, respond, next);
-			else // route handler isn't a function
-				next();
+			request.params = routeMatch.params; // overwrite params on each new route match
+			if(typeof routeMatch.handler === "function")
+				routeMatch.handler(request, respond, queueNext);
+			else if(routeMatch.handler instanceof Router)
+				routeMatch.handler.route(request.method, '/' + request.params['_'], request, respond, queueNext); // cycle through the router, then rejoin the queue
+			else // route handler isn't a function or a router
+				queueNext();
 		}
-		else {
-			// reached the end of the queue
-		}
+		else if(typeof queueEnd === 'function') // reached the end of the queue
+			queueEnd();
 	}
 };
 
