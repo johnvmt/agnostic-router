@@ -8,8 +8,6 @@ function Router() {
 
 Router.prototype.route = function() {
 	// takes method, path, [request], respond
-	var method = arguments[0];
-	var path = arguments[1];
 	if(arguments.length == 3) {
 		var request = {};
 		var respond = arguments[2];
@@ -20,9 +18,10 @@ Router.prototype.route = function() {
 			request = {};
 		var respond = arguments[3];
 	}
+	request.method = arguments[0];
 	request.path = arguments[1];
 
-	var routeMatches = this._methodPathMatches(method, request.path);
+	var routeMatches = this._methodPathMatches(request.method, request.path);
 	next();
 
 	function next() {
