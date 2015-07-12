@@ -20,8 +20,9 @@ Router.prototype.route = function() {
 			request = {};
 		var respond = arguments[3];
 	}
+	request.path = arguments[1];
 
-	var routeMatches = this._methodPathMatches(method, path);
+	var routeMatches = this._methodPathMatches(method, request.path);
 	next();
 
 	function next() {
