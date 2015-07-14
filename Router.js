@@ -48,9 +48,17 @@ Router.prototype.route = function() {
 Router.prototype.use = function() {
 	// [path], handler
 	var path = (typeof arguments[0] === 'string') ? arguments[0] : '';
-	var handler = (typeof arguments[0] === 'function') ? arguments[0] : arguments[1];
+	var handler = (typeof arguments[0] === 'function' || arguments[0] instanceof Router) ? arguments[0] : arguments[1];
 
 	return this._addRouteToArray(this.useRoutes, this._normalizePath(path), handler);
+};
+
+Router.prototype.useFirst = function() {
+	// [path], handler
+	var path = (typeof arguments[0] === 'string') ? arguments[0] : '';
+	var handler = (typeof arguments[0] === 'function' || arguments[0] instanceof Router) ? arguments[0] : arguments[1];
+
+	return this._addRouteToArray(this.useRoutes, this._normalizePath(path), handler, true);
 };
 
 Router.prototype.method = function(method, path, handler) {
@@ -85,8 +93,11 @@ Router.prototype._normalizePath = function(path) {
 	return path.replace(/\/$/, ''); // strip trailing slash
 };
 
-Router.prototype._addRouteToArray = function(array, path, handler) {
-	array.push({path: path, handler: handler});
+Router.prototype._addRouteToArray = function(array, path, handler, prepend) {
+	if(typeof prepend === 'boolean') //prepend
+		array.unshift({path: path, handler: handler});
+	else //append
+		array.push({path: path, handler: handler});
 };
 
 module.exports = function() {
