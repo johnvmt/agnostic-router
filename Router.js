@@ -94,10 +94,11 @@ Router.prototype._normalizePath = function(path) {
 };
 
 Router.prototype._addRouteToArray = function(array, path, handler, prepend) {
+	var route = {path: path, handler: handler};
 	if(typeof prepend === 'boolean') //prepend
-		array.unshift({path: path, handler: handler});
+		array.unshift(route);
 	else //append
-		array.push({path: path, handler: handler});
+		array.push(route);
 };
 
 module.exports = function() {
