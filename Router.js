@@ -29,13 +29,14 @@ Router.prototype.route = function() {
 	var routeMatches = this._methodPathMatches(request.method, path);
 	queueNext();
 
+	var self = this;
 	function queueNext() {
 		var routeMatch = routeMatches.shift();
 		if(typeof routeMatch !== "undefined") {
 			request.params = routeMatch.params; // overwrite params on each new route match
 			if(typeof routeMatch.handler === "function")
 				routeMatch.handler(request, respond, queueNext);
-			else if(routeMatch.handler instanceof Router)
+			else if(Router._isRouter(routeMatch.handler))
 				routeMatch.handler.route(request.method, '/' + request.params['_'], request, respond, queueNext); // cycle through the router, then rejoin the queue
 			else // route handler isn't a function or a router
 				queueNext();
@@ -48,28 +49,41 @@ Router.prototype.route = function() {
 Router.prototype.use = function() {
 	// [path], handler
 	var path = (typeof arguments[0] === 'string') ? arguments[0] : '';
-	var handler = (typeof arguments[0] === 'function' || arguments[0] instanceof Router) ? arguments[0] : arguments[1];
+	var handler = Router._validHandler(arguments[0]) ? arguments[0] : arguments[1];
 
-	return this._addRouteToArray(this.useRoutes, this._normalizePath(path), handler);
+	console.log("IO", handler instanceof Router, path, typeof handler);
+	return this._addRouteToArray(this.useRoutes, Router._normalizePath(path), handler);
 };
 
 Router.prototype.useFirst = function() {
 	// [path], handler
 	var path = (typeof arguments[0] === 'string') ? arguments[0] : '';
-	var handler = (typeof arguments[0] === 'function' || arguments[0] instanceof Router) ? arguments[0] : arguments[1];
+	var handler = Router._validHandler(arguments[0]) ? arguments[0] : arguments[1];
 
-	return this._addRouteToArray(this.useRoutes, this._normalizePath(path), handler, true);
+	return this._addRouteToArray(this.useRoutes, Router._normalizePath(path), handler, true);
 };
 
 Router.prototype.method = function(method, path, handler) {
 	if(!(this.methodRoutes[method] instanceof Array)) // create the stack if it doesn't exist
 		this.methodRoutes[method] = [];
-	return this._addRouteToArray(this.methodRoutes[method], this._normalizePath(path), handler);
+	return this._addRouteToArray(this.methodRoutes[method], Router._normalizePath(path), handler);
 };
 
 /* Private functions */
+Router._validHandler = function(handler) {
+	return (typeof handler === 'function' || Router._isRouter(handler)); // must be function or router
+};
+
+Router._isRouter = function(handler) {
+	return (typeof handler === 'object' && typeof handler.route === 'function'); // must be function or router
+};
+
+Router._normalizePath = function(path) {
+	return path.replace(/\/$/, ''); // strip trailing slash
+};
+
 Router.prototype._methodPathMatches = function(method, path) {
-	var pathNormalized = this._normalizePath(path);
+	var pathNormalized = Router._normalizePath(path);
 	var matches = [];
 
 	this.useRoutes.forEach(function(route) {
@@ -87,10 +101,6 @@ Router.prototype._methodPathMatches = function(method, path) {
 	}
 
 	return matches;
-};
-
-Router.prototype._normalizePath = function(path) {
-	return path.replace(/\/$/, ''); // strip trailing slash
 };
 
 Router.prototype._addRouteToArray = function(array, path, handler, prepend) {
