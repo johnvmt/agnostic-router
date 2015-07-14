@@ -51,7 +51,6 @@ Router.prototype.use = function() {
 	var path = (typeof arguments[0] === 'string') ? arguments[0] : '';
 	var handler = Router._validHandler(arguments[0]) ? arguments[0] : arguments[1];
 
-	console.log("IO", handler instanceof Router, path, typeof handler);
 	return this._addRouteToArray(this.useRoutes, Router._normalizePath(path), handler);
 };
 
