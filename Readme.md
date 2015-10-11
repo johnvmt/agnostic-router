@@ -1,17 +1,17 @@
-=Agnostic Router=
+# Agnostic Router #
 Route without Express and friends
 
-==Installation==
+## Installation ##
 
-===Bower===
+### Bower ###
 	
 	bower install
 
-===Node===
+### Node ###
 
 	npm install
 
-==Usage==
+## Usage ##
 Load in Node.js:
 
 	var router = require('agnostic-router')();
@@ -46,6 +46,6 @@ Load in browser:
 		console.log("This will be triggered if none of the routers are triggered");
 	});
 
-==Testing==
+## Testing ##
 
 	mocha test/*
