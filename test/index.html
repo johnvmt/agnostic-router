@@ -1,11 +1,13 @@
-var assert = require('assert');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="router.js"></script>
+	<script type="text/javascript">
 
-describe('Regular object', function(){
-	it('should do...something', function(done) {
+		var router = new Router();
 		var handlersTouched = [];
-
-		var router = require('../')();
-
 		router.use('', function(request, respond, next) {
 			handlersTouched.push('');
 			next();
@@ -36,7 +38,12 @@ describe('Regular object', function(){
 		router.route('request', '/books/mysection/mytitle/2', {}, function(error, response) {
 
 			console.log("RESP", error, response);
-			done();
+
 		});
-	});
-});
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -4,8 +4,8 @@ describe('Regular object', function(){
 	it('should return an _id when object is inserted', function(done) {
 		var handlersTouched = [];
 
-		var router = require('./')();
-		var router2 = require('./')();
+		var router = require('../')();
+		var router2 = require('../')();
 
 		router.use(function(request, respond, next) {
 
@@ -21,7 +21,8 @@ describe('Regular object', function(){
 
 		router2.method('request', '/12345', function(request, respond, next) {
 			console.log("RTR2B", request);
-			next();
+			respond(null, true);
+			//next();
 		});
 
 		router.use('/api', router2);
@@ -34,6 +35,7 @@ describe('Regular object', function(){
 
 		router.route('request', '/api/12345', function(error, response) {
 			console.log("ER", error, response);
+			done();
 		});
 
 	});
