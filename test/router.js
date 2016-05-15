@@ -1,7 +1,7 @@
 var assert = require('assert');
 
-describe('Regular object', function(){
-	it('should do...something', function(done) {
+describe('Typical routing', function(){
+	it('test regular routing', function(done) {
 		var handlersTouched = [];
 
 		var router = require('../')();

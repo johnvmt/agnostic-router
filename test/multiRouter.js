@@ -1,7 +1,7 @@
 var assert = require('assert');
 
-describe('Regular object', function(){
-	it('should return an _id when object is inserted', function(done) {
+describe('Multiple routers', function(){
+	it('test when one router is mounted on another', function(done) {
 		var handlersTouched = [];
 
 		var router = require('../')();
