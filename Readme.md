@@ -18,7 +18,7 @@ Load in Node.js:
 	
 Load in browser:
 
-	var router = new Router();
+	var router = Router();
 
 	router.use(function(request, respond, next) {
 		console.log("All requests will pass through here");

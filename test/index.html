@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
-	<script type="text/javascript" src="router.js"></script>
+	<script type="text/javascript" src="../router.min.js"></script>
 	<script type="text/javascript">
 
-		var router = new Router();
+		var router = Router();
 		var handlersTouched = [];
 		router.use('', function(request, respond, next) {
 			handlersTouched.push('');
