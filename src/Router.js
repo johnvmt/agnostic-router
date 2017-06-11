@@ -4,6 +4,7 @@ function Router() {
 	this.useRoutes = [];
 	this.methodRoutes = {};
 	this.index = 0;
+	this.UrlPattern = UrlPattern;
 }
 
 Router.prototype.route = function() {

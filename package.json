@@ -1,6 +1,6 @@
 {
   "name": "agnostic-router",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Route URLs without requiring Express and friends",
   "license": "MIT",
   "author": {
@@ -12,12 +12,11 @@
     "url": "https://github.com/johnvmt/agnostic-router"
   },
   "devDependencies": {
-    "browserify": "11.2.x",
-    "minifyify": "7.3.x",
-    "mocha": "2.4.x"
+    "browserify": "14.4.x",
+    "minifyify": "7.3.x"
   },
   "dependencies": {
-    "url-pattern": "0.10.x"
+    "url-pattern": "1.0.x"
   },
   "scripts": {
     "test": "mocha test",
