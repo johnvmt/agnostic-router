@@ -1,6 +1,7 @@
 var UrlPattern = require('url-pattern');
 
-function Router() {
+function Router(options) {
+	this.options = (typeof options == 'object') ? options : {};
 	this.useRoutes = [];
 	this.methodRoutes = {};
 	this.index = 0;
@@ -88,7 +89,7 @@ Router.prototype._methodPathMatches = function(method, path) {
 	var self = this;
 
 	self.useRoutes.forEach(function(route) {
-		var routeMatch = (new UrlPattern(route.path + '(/*)')).match(pathNormalized);
+		var routeMatch = (new UrlPattern(route.path + '(/*)', self.options)).match(pathNormalized);
 		//console.log("RU", routeMatch, route.path, pathNormalized);
 		if(routeMatch !== null)
 			matches.push({path: route.path, handler: route.handler, params: routeMatch});
@@ -96,7 +97,7 @@ Router.prototype._methodPathMatches = function(method, path) {
 
 	if(self.methodRoutes[method] instanceof Array) {
 		self.methodRoutes[method].forEach(function(route) {
-			var routeMatch = (new UrlPattern(route.path)).match(pathNormalized);
+			var routeMatch = (new UrlPattern(route.path, self.options)).match(pathNormalized);
 			//console.log("RM", route.path, pathNormalized, routeMatch);
 			if(routeMatch !== null)
 				matches.push({path: route.path, handler: route.handler, params: routeMatch});
@@ -114,6 +115,6 @@ Router.prototype._addRouteToArray = function(array, path, handler, prepend) {
 		array.push(route);
 };
 
-module.exports = function() {
-	return new Router();
+module.exports = function(options) {
+	return new Router(options);
 };

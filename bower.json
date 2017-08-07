@@ -1,6 +1,6 @@
 {
   "name": "agnostic-router",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Route URLs without requiring Express, or even a webserver",
   "authors": [
     "John Murphy-Teixidor <johnvmt@gmail.com>"
@@ -13,6 +13,5 @@
     "bower_components"
   ],
   "dependencies": {
-    "url-pattern": "0.10.x"
   }
 }
