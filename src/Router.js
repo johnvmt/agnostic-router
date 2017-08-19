@@ -48,6 +48,14 @@ Router.prototype.route = function() {
 
 };
 
+Router.prototype.path = function(path, params) {
+	// path, [params]
+	if(typeof params != 'object' || params == null)
+		params = {};
+
+	return (new UrlPattern(path + '(/*)', this.options)).stringify(params)
+};
+
 Router.prototype.use = function() {
 	// [path], handler
 	var path = (typeof arguments[0] === 'string') ? arguments[0] : '';

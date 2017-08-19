@@ -45,6 +45,9 @@ Load in browser:
 	}, function() {
 		console.log("This will be triggered if none of the routers are triggered");
 	});
+	
+	// Build a path
+	var generated = router.path('/books/:category/:title', {category: 'mycategory', title: 'mytitle'});
 
 ## Testing ##
 
