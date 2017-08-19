@@ -1,6 +1,6 @@
 {
   "name": "agnostic-router",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Route URLs without requiring Express and friends",
   "license": "MIT",
   "author": {

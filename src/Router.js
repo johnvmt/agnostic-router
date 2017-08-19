@@ -35,6 +35,7 @@ Router.prototype.route = function() {
 		var routeMatch = routeMatches.shift();
 		if(typeof routeMatch !== "undefined") {
 			request.params = routeMatch.params; // overwrite params on each new route match
+			request.match = routeMatch.path;
 			if(typeof routeMatch.handler === "function")
 				routeMatch.handler(request, respond, queueNext);
 			else if(Router._isRouter(routeMatch.handler))
@@ -98,7 +99,6 @@ Router.prototype._methodPathMatches = function(method, path) {
 
 	self.useRoutes.forEach(function(route) {
 		var routeMatch = (new UrlPattern(route.path + '(/*)', self.options)).match(pathNormalized);
-		//console.log("RU", routeMatch, route.path, pathNormalized);
 		if(routeMatch !== null)
 			matches.push({path: route.path, handler: route.handler, params: routeMatch});
 	});
@@ -106,7 +106,6 @@ Router.prototype._methodPathMatches = function(method, path) {
 	if(self.methodRoutes[method] instanceof Array) {
 		self.methodRoutes[method].forEach(function(route) {
 			var routeMatch = (new UrlPattern(route.path, self.options)).match(pathNormalized);
-			//console.log("RM", route.path, pathNormalized, routeMatch);
 			if(routeMatch !== null)
 				matches.push({path: route.path, handler: route.handler, params: routeMatch});
 		});

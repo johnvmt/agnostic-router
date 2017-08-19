@@ -17,6 +17,7 @@ describe('Use function', function(){
 		});
 
 		router.use('/books/*section/:title/', function(request, respond, next) {
+			console.log(request);
 			console.log("HANDLER2");
 			respond("ERR", "RESPONSE");
 			next();
